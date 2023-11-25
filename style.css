@@ -7,6 +7,11 @@ body {
   margin: 0;
 }
 
+.intro {
+  position: absolute;
+  top: 10%;
+}
+
 #board {
   background-color: lightgray;
   display: grid;
@@ -15,14 +20,21 @@ body {
 }
 
 .cell {
+  display: flex;
   width: 100px;
   height: 100px;
-  text-align: center;
+  align-items: center;
+  justify-content: center;
   font-size: 2em;
   cursor: pointer;
+  transition: background-color 0.3s ease;
   border: 1px solid black;
 }
 
 .cell:hover {
   background-color: #f0f0f0;
+}
+
+.winning-cell {
+  background-color: lightgreen;
 }

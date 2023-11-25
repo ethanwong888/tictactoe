@@ -44,7 +44,7 @@ GameBoard.prototype = {
     for (const pattern of winPatterns) {
       const [a, b, c] = pattern;
       if (this.board[a] && this.board[a] === this.board[b] && this.board[a] === this.board[c]) {
-        return this.board[a];
+        return pattern;
       }
     }
 
@@ -68,20 +68,26 @@ GameController.prototype = {
   makeMove: function (index) {
     if (this.gameBoard.isEmptyCell(index)) {
       this.gameBoard.board[index] = this.players[this.currentPlayerIndex].symbol;
-
-      const winner = this.gameBoard.checkWinner();
-      if (winner) {
-        alert(`${this.players[this.currentPlayerIndex].name} wins!`);
-        this.resetGame();
+  
+      const winnerPattern = this.gameBoard.checkWinner();
+      this.gameBoard.display();
+  
+      if (winnerPattern) {
+        // Delay the alert to ensure the board is updated  
+        setTimeout(() => { 
+          alert(`${this.players[this.currentPlayerIndex].name} wins!`);
+          this.resetGame();
+        }, 100);
       }
       else if (this.gameBoard.isFull()) {
-        alert('It\'s a draw!');
-        this.resetGame();
+        // Delay the alert to ensure the board is updated
+        setTimeout(() => { 
+          alert('It\'s a draw!');
+          this.resetGame();
+        }, 100);
       }
-      // change turn, index is either 1 - 1 = 0, or 1 - 0 = 0
       else {
         this.currentPlayerIndex = 1 - this.currentPlayerIndex;
-        this.gameBoard.display();
       }
     }
   },
