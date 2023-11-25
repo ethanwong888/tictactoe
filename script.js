@@ -53,6 +53,19 @@ GameBoard.prototype = {
 };
 
 
+function openModal(message) {
+  const modal = document.getElementById('modal');
+  const modalMessage = document.getElementById('modal-message');
+  modal.style.display = 'block';
+  modalMessage.textContent = message;
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal');
+  modal.style.display = 'none';
+}
+
+
 // GameController object
 function GameController(player1, player2) {
   this.players = [player1, player2];
@@ -73,18 +86,22 @@ GameController.prototype = {
       this.gameBoard.display();
   
       if (winnerPattern) {
-        // Delay the alert to ensure the board is updated  
-        setTimeout(() => { 
-          alert(`${this.players[this.currentPlayerIndex].name} wins!`);
-          this.resetGame();
-        }, 100);
+        openModal(`${this.players[this.currentPlayerIndex].name} wins!`);
+        // Reset game when modal is closed
+        const modal = document.getElementById('modal');
+        modal.onclick = function () {
+          gameController.resetGame();
+          closeModal();
+        };
       }
       else if (this.gameBoard.isFull()) {
-        // Delay the alert to ensure the board is updated
-        setTimeout(() => { 
-          alert('It\'s a draw!');
-          this.resetGame();
-        }, 100);
+        openModal('It\'s a draw!');
+        // Reset game when modal is closed
+        const modal = document.getElementById('modal');
+        modal.onclick = function () {
+          gameController.resetGame();
+          closeModal();
+        };
       }
       else {
         this.currentPlayerIndex = 1 - this.currentPlayerIndex;
